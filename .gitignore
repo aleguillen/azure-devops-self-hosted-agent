@@ -8,11 +8,16 @@
 # Crash log files
 crash.log
 
+# Local bash scripts to Azure Configuration. 
+**/*.local.sh
+
 # Ignore any .tfvars files that are generated automatically for each Terraform run. Most
 # .tfvars files are managed as part of configuration and so should be included in
 # version control.
-#
-# example.tfvars
+**/*.tfvars
+
+# Include .tfvars files you do wish to add to version control using negated pattern
+!**/terraform.tfvars
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
