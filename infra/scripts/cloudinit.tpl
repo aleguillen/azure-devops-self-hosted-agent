@@ -68,7 +68,7 @@ runcmd:
  - echo "[$(date +%F_%T)] Running scv.sh"
  - ./svc.sh install
  - ./svc.sh start
- - STR=$'${proxy_bypass}'; echo "$STR" > /azagent/.proxybypass
+ - STR='${proxy_bypass}'; echo "$STR" > /azagent/.proxybypass
 
 power_state:
  delay: "+1"

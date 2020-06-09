@@ -84,7 +84,7 @@ You can use [Azure DevOps CLI script](/infra/azure-pipelines.sh) to configure co
     | ado_proxy_url |  | No |
     | ado_proxy_url |  | No |
     | ado_proxy_password |  | Yes |
-    | ado_proxy_bypass_list |  | No |
+    | ado_proxy_bypass_list | []  | No |
     | resource_group | $(prefix)-$(environment)-rg | No |
     | storagekey | PipelineWillGetThisValueRuntime | No |
     | terraformstorageaccount | tf$(prefix)$(environment)sa' | No |
