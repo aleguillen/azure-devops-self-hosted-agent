@@ -19,31 +19,44 @@
 #     Prerequisite   : ADO Multi-Stage Yaml Pipeline
 # -----------------------------------------------------------------------------
 
-  name: ADO-Infra-$(Date:yyyyMMdd)$(Rev:.r)
+name: ADO-Infra-$(Date:yyyyMMdd)$(Rev:.r)
 
-  trigger:
-    branches:
-      include:
-      - master
-    paths:
-      exclude:
-        - README.md
-        - azure-pipelines.sh
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+      - /**/*.md
+      - /**/*.sh
+      - /images
+      - /**/LICENSE
   
-  stages: 
-  - stage: CI
-    displayName: CI
+pool:
+  vmImage: ubuntu-18.04
+
+stages: 
+  - stage: Build
+    displayName: Build  
     jobs:
-    - template: /pipelines/ci.yml
-      parameters:
-        environment: ci
+      - job: Build
+        displayName: Build
+        steps:
+        - task: CopyFiles@2
+          displayName: 'Copy all Infra Files to Artifacts Staging Directory'
+          inputs:
+            contents: '/infra/**'
+            TargetFolder: '$(build.artifactstagingdirectory)'
   
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact: infra'
+
   - stage: DEV
     displayName: DEV
     variables:
       - group: ado_dev_vars
     jobs:
-    - template: /pipelines/cd.yml
+    - template: /pipelines/environment.yml
       parameters:
         environment: DEV
         ado_service_connection_name: $(ado_service_connection_name)
