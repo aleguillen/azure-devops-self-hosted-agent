@@ -1,0 +1,30 @@
+parameters:
+- name: environment
+  type: string
+  displayName: 'The environment name'
+
+- name: dependsOn
+  type: string
+  displayName: 'The components this job depends on like another job'
+  default: ''
+
+jobs:
+- deployment: ${{ parameters.environment }}
+  dependsOn: ${{ parameters.dependsOn }}
+  displayName: CI
+  environment: ${{ parameters.environment }}
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self    
+        - task: CopyFiles@2
+          displayName: 'Copy all Infra Files to Artifacts Staging Directory'
+          inputs:
+            contents: '**/infra/**'
+            TargetFolder: '$(build.artifactstagingdirectory)'
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact: infra'
+          inputs:
+            ArtifactName: infra
