@@ -42,10 +42,10 @@ vm_password='<replace-me>'
 
 # If TRUE - Create VM Scale Set instead of Single VM.
 ado_vmss_enabled=true
-ado_vmss_instances="1"
+ado_vmss_instances='1'
 
 # Set VM Size
-ado_vm_size="Standard_DS1_v2"
+ado_vm_size='Standard_DS1_v2'
 
 # Set Image ID location
 # Retrieve it from CLI or specify it as string
@@ -61,7 +61,7 @@ vm_image_ref='{
 }'
 
 # List of Subscription Ids for Agent Pool Role Assigment Access
-ado_subscription_ids_access=["<replace-me>"]
+ado_subscription_ids_access='["<replace-me>"]'
 
 # Azure DevOps PAT token to configure Self-Hosted Agent
 ado_pat_token='<replace-me>'
@@ -76,7 +76,7 @@ ado_proxy_username=""
 
 ado_proxy_password=""
 
-ado_proxy_bypass_list=[]
+ado_proxy_bypass_list='[]'
 
 # ADO variable group name - if you change this name you will need to change azure-pipelines.yml file.
 ado_var_group_name='ado_dev_vars'
@@ -110,10 +110,10 @@ TENANT_ID=$(az account show --query tenantId -o tsv)
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 SUBSCRIPTION_NAME=$(az account show --query name -o tsv)
 APP_NAME="sp-ado-${PROJECT_NAME}-${SUBSCRIPTION_ID}"
-SERVICE_CONNECTION_NAME="sc-${PROJECT_NAME}-${SUBSCRIPTION_ID}"
+SERVICE_CONNECTION_NAME="sc-${PROJECT_NAME}-azure-subscription"
 
 # Create Service Principal and get Password created. Set value to environment variable.
-APP_PWD=$(az ad sp create-for-rbac --name $APP_NAME --role Contributor --scopes "/subscriptions/${SUBSCRIPTION_ID}" --query "password" -o tsv)
+APP_PWD=$(az ad sp create-for-rbac --name $APP_NAME --role Owner --scopes "/subscriptions/${SUBSCRIPTION_ID}" --query "password" -o tsv)
 export AZURE_DEVOPS_EXT_AZURE_RM_SERVICE_PRINCIPAL_KEY="${APP_PWD}"
 
 # Get other Service Principal details
@@ -154,8 +154,7 @@ resource_group='$(prefix)-$(environment)-rg' \
 storagekey='PipelineWillGetThisValueRuntime' \
 terraformstorageaccount='tf$(prefix)$(environment)sa' \
 terraformstoragerg='tf-$(prefix)-$(environment)-rg' \
-ado_server_url='$(System.TeamFoundationCollectionUri)' \
-ado_service_connection_name=$SERVICE_CONNECTION_NAME
+ado_server_url='$(System.TeamFoundationCollectionUri)' 
 
 # Create Variable Secrets
 VAR_GROUP_ID=$(az pipelines variable-group list --group-name $ado_var_group_name --top 1 --query "[0].id" -o tsv)
