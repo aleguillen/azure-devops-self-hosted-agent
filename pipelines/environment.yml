@@ -23,12 +23,12 @@ jobs:
         steps:
         - checkout: self
         - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'infra'
-              downloadPath: '$(System.DefaultWorkingDirectory)/_artifacts'
-  
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'infra'
+            downloadPath: '$(System.DefaultWorkingDirectory)/_artifacts'
+
         - task: AzureCLI@1
           displayName: 'Azure CLI - Deploy Terraform State Storage Account'
           inputs:
