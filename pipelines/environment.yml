@@ -26,7 +26,7 @@ jobs:
           inputs:
             buildType: 'current'
             downloadType: 'single'
-            artifactName: 'infra'
+            artifactName: 'drop'
             downloadPath: '$(System.DefaultWorkingDirectory)/_artifacts'
 
         - task: AzureCLI@1
@@ -53,7 +53,7 @@ jobs:
         - task: qetza.replacetokens.replacetokens-task.replacetokens@3
           displayName: 'Replace tokens in terraform vars file'
           inputs:
-            targetFiles: '$(System.DefaultWorkingDirectory)/_artifacts/infra/**/*.tfvars'
+            targetFiles: '$(System.DefaultWorkingDirectory)/_artifacts/drop/infra/**/*.tfvars'
             escapeType: none
             tokenPrefix: '__'
             tokenSuffix: '__'
@@ -66,7 +66,7 @@ jobs:
         - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
           displayName: 'Terraform : init'
           inputs:
-            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/drop/infra'
             backendServiceArm: ${{ parameters.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
@@ -77,7 +77,7 @@ jobs:
           displayName: 'Terraform : plan'
           inputs:
             command: plan
-            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/drop/infra'
             environmentServiceNameAzureRM: ${{ parameters.ado_service_connection_name }}
             backendServiceArm: ${{ parameters.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
@@ -90,7 +90,7 @@ jobs:
           inputs:
             command: apply
             commandOptions: '-auto-approve'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/drop/infra'
             environmentServiceNameAzureRM: ${{ parameters.ado_service_connection_name }}
             backendServiceArm: ${{ parameters.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
