@@ -55,19 +55,20 @@ runcmd:
  # Downloding and installing VSTS agent package
  #
  - echo "[$(date +%F_%T)] Downloading Agent"
- - chmod ugo+rwx -R /adoagent
+ - chmod ugo+rwx -R /azagent
  - curl -fkSL -o vsts-agent.tar.gz https://vstsagentpackage.azureedge.net/agent/2.164.8/vsts-agent-linux-x64-2.164.8.tar.gz
  - echo "[$(date +%F_%T)] Extracting Agent"
  - tar -zxvf vsts-agent.tar.gz 
- - chmod ugo+rwx -R /adoagent
+ - chmod ugo+rwx -R /azagent
  - echo "[$(date +%F_%T)] Running installdependencies.sh"
  - ./bin/installdependencies.sh
  - echo "[$(date +%F_%T)] Running config.sh"
- - if [ "${proxy_url}" == "" ]; then echo "[$(date +%F_%T)] -- No proxy specified." && sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace; else echo "[$(date +%F_%T)] -- Proxy specified." && sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace --proxyurl "${proxy_url}" --proxyusername "${proxy_username}" --proxypassword "${proxy_password}"; fi
+  - if [ "${proxy_url}" == "" ]; then echo "[$(date +%F_%T)] -- No proxy specified."; else echo "[$(date +%F_%T)] -- Proxy specified."; fi
+ - if [ "${proxy_url}" == "" ]; then sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace; else sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace --proxyurl "${proxy_url}" --proxyusername "${proxy_username}" --proxypassword "${proxy_password}"; fi
  - echo "[$(date +%F_%T)] Running scv.sh"
  - ./svc.sh install
  - ./svc.sh start
- - STR=$'${proxy_bypass}'; echo "$STR" > /adoagent/.proxybypass
+ - STR=$'${proxy_bypass}'; echo "$STR" > /azagent/.proxybypass
 
 power_state:
  delay: "+1"
