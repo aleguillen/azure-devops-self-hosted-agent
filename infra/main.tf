@@ -29,7 +29,7 @@ data "template_file" "cloudinit" {
     proxy_url = length(var.ado_proxy_url) > 0 ? var.ado_proxy_url : ""
     proxy_username = length(var.ado_proxy_username) > 0 ? var.ado_proxy_username : ""
     proxy_password = length(var.ado_proxy_password) > 0 ? var.ado_proxy_password : ""
-    proxy_bypass = length(var.ado_proxy_bypass_list) > 0 ? join("\\n", var.ado_proxy_bypass_list) : ""
+    proxy_bypass = length(var.ado_proxy_bypass_list) > 0 ? join("\\n", ([ for url in var.ado_proxy_bypass_list : replace(url, ".", "\\.")])) : ""
   }
 }
 

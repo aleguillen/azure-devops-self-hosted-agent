@@ -51,6 +51,9 @@ You can use [Azure DevOps CLI script](/infra/azure-pipelines.sh) to configure co
     * Authentication Method: **Service Principal (automatic)** - this option will automatically create the Service Principal on your behalf, if you don't have permissions to create a Service Principal please use the manual option. 
     * Scope level: Select the appropiate level, for this project I used **Subscription**.
     * Service connection name: **sc-ado-self-hosted-agent-azure-subscription**.
+    
+    **Note: The Service connection name can be customized, just remember to update all azure-pipelines.yml files to use the right Service Connection name in the variables section.**
+
 * Create a Personal Access Token (PAT token), we will use this token to configure the Self Hosted Agent for Azure DevOps. For more information on how to create a PAT token see [here](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate).
 * [Import Git](https://docs.microsoft.com/en-us/azure/devops/repos/git/import-git-repository) repo into your Azure DevOps project.
     * Git source Url: https://github.com/aleguillen/azure-devops-self-hosted-agent.git
