@@ -34,7 +34,7 @@
   - stage: CI
     displayName: CI
     jobs:
-    - template: /pipelines/ci.yaml
+    - template: /pipelines/ci.yml
       parameters:
         environment: ci
   
@@ -43,7 +43,7 @@
     variables:
       - group: ado_dev_vars
     jobs:
-    - template: /pipelines/cd.yaml
+    - template: /pipelines/cd.yml
       parameters:
         environment: DEV
         ado_service_connection_name: $(ado_service_connection_name)
