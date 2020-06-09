@@ -45,7 +45,7 @@ stages:
         - task: CopyFiles@2
           displayName: 'Copy all Infra Files to Artifacts Staging Directory'
           inputs:
-            contents: '**/infra/**'
+            contents: '/infra/**'
             TargetFolder: '$(build.artifactstagingdirectory)'
   
         - task: PublishBuildArtifacts@1

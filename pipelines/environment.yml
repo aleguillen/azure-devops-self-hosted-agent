@@ -15,7 +15,7 @@ parameters:
 jobs:
 - deployment: ${{ parameters.environment }}
   dependsOn: ${{ parameters.dependsOn }}
-  displayName: CD
+  displayName: Deploy
   environment: ${{ parameters.environment }}
   strategy:
     runOnce:
