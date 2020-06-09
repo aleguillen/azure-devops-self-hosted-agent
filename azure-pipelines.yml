@@ -47,33 +47,8 @@ stages:
         pool:
           vmImage: ubuntu-18.04
         steps:
-        - task: CopyFiles@2
-          displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-          inputs:
-            TargetFolder: '$(build.artifactstagingdirectory)'
-
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: infra'
-          inputs:
-            ArtifactName: infra
-
-  - stage: dev
-    displayName: dev
-    jobs:
-      - job: Deploy
-        displayName: Deploy
-        pool:
-          vmImage: ubuntu-18.04
-        steps:   
-        - task: DownloadBuildArtifacts@0
-          inputs:
-            buildType: 'current'
-            downloadType: 'single'
-            artifactName: 'infra'
-            downloadPath: '$(System.DefaultWorkingDirectory)/_artifacts'
-
         - task: AzureCLI@1
-          displayName: 'Azure CLI to deploy required Azure resources (Terraform State)'
+          displayName: 'Azure CLI - Deploy Terraform State Storage Account'
           inputs:
             azureSubscription: ${{ variables.ado_service_connection_name }}
             scriptLocation: inlineScript
@@ -101,7 +76,6 @@ stages:
             tokenPrefix: '__'
             tokenSuffix: '__'
 
-
         - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
           displayName: 'Install Terraform 0.12.24'
           inputs:
@@ -115,29 +89,63 @@ stages:
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
             backendAzureRmContainerName: terraform
-            backendAzureRmKey: '/ado/terraform.tfstate'
+            backendAzureRmKey: 'ado/terraform.tfstate'
 
         - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
           displayName: 'Terraform : plan'
           inputs:
             command: plan
+            commandOptions: '-out=terraform.tfplan'
             workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
             environmentServiceNameAzureRM: ${{ variables.ado_service_connection_name }}
             backendServiceArm: ${{ variables.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
             backendAzureRmContainerName: terraform
-            backendAzureRmKey: '/ado/terraform.tfstate'
+            backendAzureRmKey: 'ado/terraform.tfstate'
+
+        - task: CopyFiles@2
+          displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+          inputs:
+            TargetFolder: '$(build.artifactstagingdirectory)'
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact: infra'
+          inputs:
+            ArtifactName: infra
+
+  - stage: dev
+    displayName: dev
+    jobs:
+      - job: Deploy
+        displayName: Deploy
+        pool:
+          vmImage: ubuntu-18.04
+        steps:   
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'infra'
+            downloadPath: '$(System.DefaultWorkingDirectory)/_artifacts'
+
+        - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+          displayName: 'Replace tokens in terraform vars file'
+          inputs:
+            targetFiles: '$(System.DefaultWorkingDirectory)/_artifacts/infra/**/*.tfvars'
+            escapeType: none
+            tokenPrefix: '__'
+            tokenSuffix: '__'
 
         - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
           displayName: 'Terraform : apply -auto-approve'
           inputs:
             command: apply
-            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
             commandOptions: '-auto-approve'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
             environmentServiceNameAzureRM: ${{ variables.ado_service_connection_name }}
             backendServiceArm: ${{ variables.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
             backendAzureRmContainerName: terraform
-            backendAzureRmKey: '/ado/terraform.tfstate'
+            backendAzureRmKey: 'ado/terraform.tfstate'
