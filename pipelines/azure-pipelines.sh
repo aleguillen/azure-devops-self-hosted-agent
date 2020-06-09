@@ -150,11 +150,12 @@ ado_proxy_username=$ado_proxy_username \
 ado_proxy_password=$ado_proxy_password \
 ado_proxy_bypass_list=$ado_proxy_bypass_list \
 ado_pool_name=$ado_pool_name \
-resource_group='$(prefix)-$(environment)-rg' \
+resource_group='rg-$(prefix)-$(environment)' \
 storagekey='PipelineWillGetThisValueRuntime' \
-terraformstorageaccount='tf$(prefix)$(environment)sa' \
-terraformstoragerg='tf-$(prefix)-$(environment)-rg' \
-ado_server_url='$(System.TeamFoundationCollectionUri)' 
+terraformstorageaccount='sttf$(prefix)$(environment)' \
+terraformstoragerg='rg-tf-$(prefix)-$(environment)' \
+ado_server_url='$(System.TeamFoundationCollectionUri)' \
+ado_service_connection_name=$SERVICE_CONNECTION_NAME
 
 # Create Variable Secrets
 VAR_GROUP_ID=$(az pipelines variable-group list --group-name $ado_var_group_name --top 1 --query "[0].id" -o tsv)
