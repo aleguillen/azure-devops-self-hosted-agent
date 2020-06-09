@@ -53,10 +53,11 @@ stages:
 
   - stage: DEV
     displayName: DEV
+    dependsOn: Build
     variables:
       - group: ado_dev_vars
     jobs:
     - template: /pipelines/environment.yml
       parameters:
         environment: DEV
-        ado_service_connection_name: $(ado_service_connection_name)
+        ado_service_connection_name: ${{ variables.ado_service_connection_name }}
