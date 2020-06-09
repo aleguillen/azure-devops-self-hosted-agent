@@ -117,7 +117,7 @@ stages:
             scriptLocation: inlineScript
             inlineScript: |
               # Upload TF Plan file to Azure Storage
-              az storage blob upload --account-name '$(terraformstorageaccount)' --account-key $(storagekey) --container-name 'terraform' --name 'ado/plans/terraform$(Build.BuildId).tfplan' --file 'terraform$(Build.BuildId).tfplan' --auth-mode key
+              az storage blob upload --account-name '$(terraformstorageaccount)' --account-key $($(az storage account keys list -g $(terraformstoragerg) -n $(terraformstorageaccount) --query "[0].value" -o tsv)) --container-name 'terraform' --name 'ado/plans/terraform$(Build.BuildId).tfplan' --file 'terraform$(Build.BuildId).tfplan' --auth-mode key
               
         - task: CopyFiles@2
           displayName: 'Copy Terraform Files to Artifacts Staging Directory'
