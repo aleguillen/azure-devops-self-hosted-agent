@@ -50,6 +50,8 @@ stages:
   
         - task: PublishBuildArtifacts@1
           displayName: 'Publish Artifact: infra'
+          inputs:
+            ArtifactName: infra
 
   - stage: DEV
     displayName: DEV
