@@ -36,7 +36,7 @@ variables:
   - name: ado_agent_pool
     value: 'Azure Pipelines'
   - name: ado_service_connection_name
-    value: 'sc-ado-self-hosted-agent-5202ea18-a138-47f1-a47a-0a24613a45f4'
+    value: 'sc-ado-self-hosted-agent-azure-subscription'
 
 stages: 
   - stage: Build
