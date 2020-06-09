@@ -45,13 +45,13 @@ stages:
         - task: CopyFiles@2
           displayName: 'Copy all Infra Files to Artifacts Staging Directory'
           inputs:
-            contents: '/infra/**'
+            contents: '**/infra/**'
             TargetFolder: '$(build.artifactstagingdirectory)'
   
         - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: infra'
+          displayName: 'Publish Artifact: drop'
           inputs:
-            ArtifactName: infra
+            ArtifactName: drop
 
   - stage: DEV
     displayName: DEV
