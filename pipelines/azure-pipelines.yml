@@ -60,7 +60,7 @@ stages:
       - group: ado_dev_vars
 
       - name: ado_azure_service_connection_name
-        value: $[variables.ado_service_connection_name]
+        value: 'sc-ado-self-hosted-agent-azure-subscription'
     jobs:
     - template: /pipelines/environment.yml
       parameters:
