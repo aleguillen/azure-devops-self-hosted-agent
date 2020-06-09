@@ -109,17 +109,16 @@ stages:
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
             backendAzureRmContainerName: terraform
             backendAzureRmKey: 'ado/terraform.tfstate'
-
-        - task: AzureFileCopy@4
-          displayName: 'Upload Terraform plan'
-          inputs:
-            SourcePath: 'terraform$(Build.BuildId).tfplan'
-            azureSubscription: ${{ variables.ado_service_connection_name }}
-            Destination: 'AzureBlob'
-            storage: '$(terraformstorageaccount)'
-            ContainerName: 'terraform'
-            blobPrefix: 'ado/plans'
             
+        - task: AzureCLI@1
+          displayName: 'Azure CLI - Upload TF Plan to Storage Account'
+          inputs:
+            azureSubscription: ${{ variables.ado_service_connection_name }}
+            scriptLocation: inlineScript
+            inlineScript: |
+              # Upload TF Plan file to Azure Storage
+              az storage blob upload --account-name '$(terraformstorageaccount)' --account-key $(storagekey) --container-name 'terraform' --name 'ado/plans/terraform$(Build.BuildId).tfplan' --file 'terraform$(Build.BuildId).tfplan' --auth-mode key
+              
         - task: CopyFiles@2
           displayName: 'Copy Terraform Files to Artifacts Staging Directory'
           inputs:
