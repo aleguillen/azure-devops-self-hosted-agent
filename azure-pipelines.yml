@@ -36,7 +36,7 @@ variables:
   - name: ado_agent_pool
     value: 'Azure Pipelines'
   - name: ado_service_connection_name
-    value: $[variables.ado_service_connection_name]
+    value: $(variables.ado_service_connection_name)
 
 stages: 
   - stage: Build
