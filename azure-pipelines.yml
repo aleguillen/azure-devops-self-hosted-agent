@@ -68,6 +68,12 @@ stages:
               # Set Storage Key as Variable for later use
               echo "##vso[task.setvariable variable=storagekey]$KEY"
 
+        - task: CopyFiles@2
+          displayName: 'Copy Terraform Var Files to Artifacts Staging Directory'
+          inputs:
+            contents: '**/*.tfvars'
+            TargetFolder: '$(build.artifactstagingdirectory)'
+            
         - task: qetza.replacetokens.replacetokens-task.replacetokens@3
           displayName: 'Replace tokens in terraform vars file'
           inputs:
@@ -95,7 +101,7 @@ stages:
           displayName: 'Terraform : plan'
           inputs:
             command: plan
-            commandOptions: '-out=terraform.tfplan'
+            commandOptions: '-out=terraform$(Build.BuildId).tfplan'
             workingDirectory: '$(System.DefaultWorkingDirectory)'
             environmentServiceNameAzureRM: ${{ variables.ado_service_connection_name }}
             backendServiceArm: ${{ variables.ado_service_connection_name }}
@@ -104,10 +110,20 @@ stages:
             backendAzureRmContainerName: terraform
             backendAzureRmKey: 'ado/terraform.tfstate'
 
+        - task: AzureFileCopy@4
+          displayName: 'Upload Terraform plan'
+          inputs:
+            SourcePath: 'terraform$(Build.BuildId).tfplan'
+            azureSubscription: ${{ variables.ado_service_connection_name }}
+            Destination: 'AzureBlob'
+            storage: '$(terraformstorageaccount)'
+            ContainerName: 'terraform'
+            blobPrefix: 'ado/plans'
+            
         - task: CopyFiles@2
           displayName: 'Copy Terraform Files to Artifacts Staging Directory'
           inputs:
-            contents: '**/*.tf*'
+            contents: '**/*.tf'
             TargetFolder: '$(build.artifactstagingdirectory)'
 
         - task: CopyFiles@2
@@ -152,7 +168,7 @@ stages:
         - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
           displayName: 'Terraform : init'
           inputs:
-            workingDirectory: '$(System.DefaultWorkingDirectory)'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
             backendServiceArm: ${{ variables.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
