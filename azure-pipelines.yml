@@ -84,7 +84,7 @@ stages:
         - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
           displayName: 'Terraform : init'
           inputs:
-            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
             backendServiceArm: ${{ variables.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
@@ -96,7 +96,7 @@ stages:
           inputs:
             command: plan
             commandOptions: '-out=terraform.tfplan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/_artifacts/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
             environmentServiceNameAzureRM: ${{ variables.ado_service_connection_name }}
             backendServiceArm: ${{ variables.ado_service_connection_name }}
             backendAzureRmResourceGroupName: '$(terraformstoragerg)'
