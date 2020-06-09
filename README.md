@@ -5,25 +5,16 @@ Azure self-hosted agent pool configuration. This will create a VM or VMSS and co
 
 ## Pre-requisites
 
-* Azure CLI, and the Azure CLI AKS Preview extension.
+* Azure CLI.
     * See how to install Azure CLI [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest).
     ```bash
     # Confirm AZ CLI installation
     az --version
-
-    # Install the aks-preview extension
-    az extension add --name aks-preview
-    
-    # Update the extension to make sure you have the latest version installed
-    az extension update --name aks-preview
     ```
 * HashiCorp Terraform.
     * See how to install Terraform [here](https://learn.hashicorp.com/terraform/azure/install_az).
 * Install Azure DevOps Extension.
     ```bash
-    # Confirm AZ CLI installation
-    az --version
-
     # Install and confirm Azure DevOps extension.
     az extension add --name azure-devops
     az extension show --name azure-devops
