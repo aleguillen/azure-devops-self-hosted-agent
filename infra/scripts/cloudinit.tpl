@@ -63,7 +63,7 @@ runcmd:
  - echo "[$(date +%F_%T)] Running installdependencies.sh"
  - ./bin/installdependencies.sh
  - echo "[$(date +%F_%T)] Running config.sh"
- - sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace --proxyurl "${proxy_url}" --proxyusername "${proxy_username}" --proxypassword "${proxy_password}"
+ - if [ "${proxy_url}" == "" ]; then echo "[$(date +%F_%T)] -- No proxy specified." && sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace; else echo "[$(date +%F_%T)] -- Proxy specified." && sudo -u ${vm_admin} ./config.sh --unattended --url "${server_url}" --auth pat --token "${pat_token}" --pool "${pool_name}" --agent $HOSTNAME --work _work --acceptTeeEula --replace --proxyurl "${proxy_url}" --proxyusername "${proxy_username}" --proxypassword "${proxy_password}"; fi
  - echo "[$(date +%F_%T)] Running scv.sh"
  - ./svc.sh install
  - ./svc.sh start
