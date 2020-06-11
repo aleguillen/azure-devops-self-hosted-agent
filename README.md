@@ -28,7 +28,7 @@ Azure self-hosted agent pool configuration. This will create a VM or VMSS and co
 
 ## Azure Pipelines Setup
 
-You can use [Azure DevOps CLI script](/infra/azure-pipelines.sh) to configure configure it (recommended) or you can use DevOps portal and perform these steps manually:
+You can use [Azure DevOps CLI script](/pipelines/azure-pipelines.sh) to configure configure it (recommended) or you can use DevOps portal and perform these steps manually:
 
 * [Login or Sign Up](https://dev.azure.com) into your Azure DevOps Organization.
 * Create a new project in Azure DevOps, for information see [here](https://docs.microsoft.com/en-us/azure/devops/organizations/projects/create-project).
@@ -86,7 +86,6 @@ You can use [Azure DevOps CLI script](/infra/azure-pipelines.sh) to configure co
     | ado_server_url | $(System.TeamFoundationCollectionUri) | No |
     | ado_service_connection_name | Azure Susbcription | No |
 
-    
 ## Running with Terraform locally
 
 * Copy and paste file **terraform.tfvars** and name the new file **terraform.auto.tfvars** use this new file to set your local variables values. Terraform will use this file instead for local executions, for more information see [here](https://www.terraform.io/docs/configuration/variables.html#variable-definition-precedence).
