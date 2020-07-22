@@ -51,6 +51,14 @@ runcmd:
  - wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
  - unzip terraform*.zip
  - mv terraform /usr/local/bin
+
+ # 
+ # Install Packer
+ #
+ - wget "https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip"
+ - unzip packer*.zip
+ - mv packer /usr/local/bin
+
  #
  # Downloding and installing VSTS agent package
  #
