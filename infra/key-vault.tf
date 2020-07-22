@@ -18,9 +18,7 @@ resource "azurerm_key_vault" "ado" {
 
     secret_permissions = [
       "get",
-      "list",
-      "set",
-      "restore"
+      "list"
     ]
   }
 
