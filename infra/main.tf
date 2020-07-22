@@ -1,3 +1,6 @@
+# GET: Current Azure RM context details
+data "azurerm_client_config" "current" {}
+
 # CREATE: Resource Group
 resource "azurerm_resource_group" "ado" {
   name      = local.rg_name

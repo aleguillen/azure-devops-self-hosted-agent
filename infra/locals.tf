@@ -9,6 +9,8 @@ locals {
 
   nsg_name   = "nsg-${var.prefix}-${var.environment_name}-default"
 
+  kv_name = "kv-${var.prefix}-${var.environment_name}"
+
   common_tags = merge(
     var.common_tags, 
     {

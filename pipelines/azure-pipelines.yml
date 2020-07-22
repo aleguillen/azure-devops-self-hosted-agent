@@ -37,21 +37,11 @@ pool:
 
 stages: 
   - stage: Build
-    displayName: Build  
+    displayName: Build
     jobs:
-      - job: Build
-        displayName: Build
-        steps:
-        - task: CopyFiles@2
-          displayName: 'Copy all Infra Files to Artifacts Staging Directory'
-          inputs:
-            SourceFolder: 'infra'
-            TargetFolder: '$(build.artifactstagingdirectory)'
-  
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: infra'
-          inputs:
-            ArtifactName: infra
+    - template: /pipelines/build.yml
+      parameters:
+        environment: Build
 
   - stage: DEV
     displayName: DEV

@@ -69,13 +69,13 @@ resource "azurerm_storage_container" "ado" {
 
 # CREATE: Private Endpoint to Terraform Blob Storage
 resource "azurerm_private_endpoint" "ado" {
-  name                = "${azurerm_storage_account.ado.name}-pe"
+  name                = "pe-${azurerm_storage_account.ado.name}"
   location            = azurerm_resource_group.ado.location
   resource_group_name = azurerm_resource_group.ado.name
   subnet_id           = azurerm_subnet.ado.id
 
   private_service_connection {
-    name                           = "${azurerm_storage_account.ado.name}-pecon"
+    name                           = "pecon-${azurerm_storage_account.ado.name}"
     private_connection_resource_id = azurerm_storage_account.ado.id
     is_manual_connection           = false
     subresource_names              = ["blob"]
