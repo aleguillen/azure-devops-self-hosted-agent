@@ -8,8 +8,12 @@ locals {
   vnet_name   = "vnet-${var.prefix}-${var.environment_name}"
 
   nsg_name   = "nsg-${var.prefix}-${var.environment_name}-default"
-
+  
   kv_name = "kv-${var.prefix}-${var.environment_name}"
+  
+  kv_private_dns_name = "privatelink.vaultcore.azure.net" 
+
+  kv_private_dns_link_name = "dnslink-${local.kv_private_dns_name}-${azurerm_virtual_network.ado.name}"
 
   common_tags = merge(
     var.common_tags, 
@@ -31,7 +35,12 @@ locals {
   ado_nic_name   = "nic-vm-${var.prefix}-${var.environment_name}-ado"
 
   # Terraform
-  tf_container_name = "terraform"
+  storage_account_name = "tf${substr(md5(azurerm_resource_group.ado.id),0,15)}sa"
   
-  blob_private_dns_link_name = "dnslink-${var.prefix}-${var.environment_name}-blob"
+  tf_container_name = "terraform"
+
+  blob_private_dns_name = "privatelink.blob.core.windows.net"  
+  
+  blob_private_dns_link_name = "dnslink-${local.blob_private_dns_name}-${azurerm_virtual_network.ado.name}"
+
 }

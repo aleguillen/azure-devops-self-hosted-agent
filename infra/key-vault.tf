@@ -1,4 +1,3 @@
-
 # CREATE: Key Vault
 resource "azurerm_key_vault" "ado" {
   name                        = local.kv_name
@@ -59,7 +58,7 @@ resource "azurerm_private_endpoint" "kv" {
 
 # CREATE: Private DNS zone to Key Vault
 resource "azurerm_private_dns_zone" "kv" {
-  name                = "privatelink.vaultcore.azure.net"  
+  name                = local.kv_private_dns_name
   resource_group_name = azurerm_resource_group.ado.name
   
   tags = merge(
@@ -88,7 +87,7 @@ resource "azurerm_private_dns_a_record" "kv" {
 
 # CREATE: Link Private DNS zone with Virtual Network - Key Vault
 resource "azurerm_private_dns_zone_virtual_network_link" "kv" {
-  name                  = "dnslink-${azurerm_private_dns_zone.kv.name}"
+  name                  = local.kv_private_dns_link_name
   resource_group_name   = azurerm_resource_group.ado.name
   private_dns_zone_name = azurerm_private_dns_zone.kv.name
   virtual_network_id    = azurerm_virtual_network.ado.id

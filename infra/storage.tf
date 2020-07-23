@@ -46,7 +46,7 @@ resource "azurerm_private_endpoint" "diag" {
 
 # CREATE: Storage Account for Terraform State file
 resource "azurerm_storage_account" "ado" {
-  name                     = "tf${substr(md5(azurerm_resource_group.ado.id),0,15)}sa"
+  name                     = local.storage_account_name
   resource_group_name      = azurerm_resource_group.ado.name
   location                 = azurerm_resource_group.ado.location
   account_tier             = "Standard"
@@ -91,7 +91,7 @@ resource "azurerm_private_endpoint" "ado" {
 
 # CREATE: Private DNS zone to blob endpoint
 resource "azurerm_private_dns_zone" "blob" {
-  name                = "privatelink.blob.core.windows.net"  
+  name                = local.blob_private_dns_name 
   resource_group_name = azurerm_resource_group.ado.name
   
   tags = merge(
