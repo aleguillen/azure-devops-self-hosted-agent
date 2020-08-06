@@ -78,39 +78,39 @@ runcmd:
  - ./svc.sh start
  - STR='${proxy_bypass}'; echo "$STR" > /azagent/.proxybypass
 
- - cat > /azagent/.proxybypass <<EOF
-vault\.azure\.net
-privatelink\.database\.windows\.net
-privatelink\.database\.windows\.net
-privatelink\.blob\.core\.windows\.net
-privatelink\.table\.core\.windows\.net
-privatelink\.queue\.core\.windows\.net
-privatelink\.file\.core\.windows\.net
-privatelink\.web\.core\.windows\.net
-privatelink\.dfs\.core\.windows\.net
-privatelink\.documents\.azure\.com
-privatelink\.mongo\.cosmos\.azure\.com
-privatelink\.cassandra\.cosmos\.azure\.com
-privatelink\.gremlin\.cosmos\.azure\.com
-privatelink\.table\.cosmos\.azure\.com
-privatelink\.postgres\.database\.azure\.com
-privatelink\.mysql\.database\.azure\.com
-privatelink\.mariadb\.database\.azure\.com
-privatelink\.vaultcore\.azure\.net
-privatelink\.eastus2\.azmk8s\.io
-privatelink\.search\.windows\.net
-privatelink\.azurecr\.io
-privatelink\.azconfig\.io
-privatelink\.eastus2\.backup\.windowsazure\.com
-privatelink\.servicebus\.windows\.net
-privatelink\.servicebus\.windows\.net
-privatelink\.servicebus\.windows\.net
-privatelink\.eventgrid\.azure\.net
-privatelink\.eventgrid\.azure\.net
-privatelink\.azurewebsites\.net
-privatelink\.api\.azureml\.ms
-EOF
-
+write_files:
+- content: |
+    vault\.azure\.net
+    privatelink\.database\.windows\.net
+    privatelink\.database\.windows\.net
+    privatelink\.blob\.core\.windows\.net
+    privatelink\.table\.core\.windows\.net
+    privatelink\.queue\.core\.windows\.net
+    privatelink\.file\.core\.windows\.net
+    privatelink\.web\.core\.windows\.net
+    privatelink\.dfs\.core\.windows\.net
+    privatelink\.documents\.azure\.com
+    privatelink\.mongo\.cosmos\.azure\.com
+    privatelink\.cassandra\.cosmos\.azure\.com
+    privatelink\.gremlin\.cosmos\.azure\.com
+    privatelink\.table\.cosmos\.azure\.com
+    privatelink\.postgres\.database\.azure\.com
+    privatelink\.mysql\.database\.azure\.com
+    privatelink\.mariadb\.database\.azure\.com
+    privatelink\.vaultcore\.azure\.net
+    privatelink\.eastus2\.azmk8s\.io
+    privatelink\.search\.windows\.net
+    privatelink\.azurecr\.io
+    privatelink\.azconfig\.io
+    privatelink\.eastus2\.backup\.windowsazure\.com
+    privatelink\.servicebus\.windows\.net
+    privatelink\.servicebus\.windows\.net
+    privatelink\.servicebus\.windows\.net
+    privatelink\.eventgrid\.azure\.net
+    privatelink\.eventgrid\.azure\.net
+    privatelink\.azurewebsites\.net
+    privatelink\.api\.azureml\.ms
+  path: /azagent/.proxybypass
 
 power_state:
  delay: "+1"
