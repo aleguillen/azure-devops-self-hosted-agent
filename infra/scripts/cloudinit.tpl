@@ -97,11 +97,11 @@ privatelink\.postgres\.database\.azure\.com
 privatelink\.mysql\.database\.azure\.com
 privatelink\.mariadb\.database\.azure\.com
 privatelink\.vaultcore\.azure\.net
-privatelink\.${region}\.azmk8s\.io
+privatelink\.eastus2\.azmk8s\.io
 privatelink\.search\.windows\.net
 privatelink\.azurecr\.io
 privatelink\.azconfig\.io
-privatelink\.${region}\.backup\.windowsazure\.com
+privatelink\.eastus2\.backup\.windowsazure\.com
 privatelink\.servicebus\.windows\.net
 privatelink\.servicebus\.windows\.net
 privatelink\.servicebus\.windows\.net
