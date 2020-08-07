@@ -45,6 +45,14 @@ runcmd:
  - chmod +x /usr/local/bin/docker-compose
 
  #
+ # Install Kubectl
+ #
+ - echo "[$(date +%F_%T)] Installing Kubectl"
+ - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+ - chmod +x ./kubectl
+ - mv ./kubectl /usr/local/bin
+
+ #
  # Install Terraform 
  #
  - echo "[$(date +%F_%T)] Installing Terraform"
@@ -77,7 +85,7 @@ runcmd:
  - ./svc.sh install
  - ./svc.sh start
  - STR='${proxy_bypass}'; echo "$STR" > /azagent/.proxybypass
-
+ 
 power_state:
  delay: "+1"
  mode: reboot

@@ -3,13 +3,17 @@ locals {
   # https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging
 
   # General
-  rg_name   = "rg-${var.prefix}-${var.environment_name}"
-
-  vnet_name   = "vnet-${var.prefix}-${var.environment_name}"
-
-  nsg_name   = "nsg-${var.prefix}-${var.environment_name}-default"
+  naming_conv = "${var.prefix}-${var.environment_name}"
   
-  kv_name = "kv-${var.prefix}-${var.environment_name}"
+  unique_rg_string = md5(azurerm_resource_group.ado.id)
+  
+  rg_name   = "rg-${local.naming_conv}"
+
+  vnet_name   = "vnet-${local.naming_conv}"
+
+  nsg_name   = "nsg-${local.naming_conv}-default"
+  
+  kv_name = "kv-${local.naming_conv}"
   
   kv_private_dns_name = "privatelink.vaultcore.azure.net" 
 
@@ -24,18 +28,18 @@ locals {
   )
   
   # ADO Agent Pool - Agents details
-  ado_vm_name   = "vm-${var.prefix}-${var.environment_name}-ado"
+  ado_vm_name   = "vm-${local.naming_conv}-ado"
   
-  ado_vmss_name   = "vmss-${var.prefix}-${var.environment_name}-ado"
+  ado_vmss_name   = "vmss-${local.naming_conv}-ado"
   
-  ado_vm_computer_name   = "${var.prefix}-${var.environment_name}-ado"
+  ado_vm_computer_name   = "${local.naming_conv}-ado"
   
-  ado_vm_os_name   = "disk-os-${var.prefix}-${var.environment_name}-ado"
+  ado_vm_os_name   = "disk-os-${local.naming_conv}-ado"
 
-  ado_nic_name   = "nic-vm-${var.prefix}-${var.environment_name}-ado"
+  ado_nic_name   = "nic-vm-${local.naming_conv}-ado"
 
   # Terraform
-  storage_account_name = "tf${substr(md5(azurerm_resource_group.ado.id),0,15)}sa"
+  storage_account_name = "tf${substr(local.unique_rg_string,0,15)}sa"
   
   tf_container_name = "terraform"
 
