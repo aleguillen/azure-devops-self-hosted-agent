@@ -11,7 +11,7 @@ apt install unzip -y
 
 echo "[$(date +%F_%T)] Installing Azure CLI"
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-sudo apt install --only-upgrade -y azure-cli
+#sudo apt install --only-upgrade -y azure-cli
 
 echo "[$(date +%F_%T)] Installing Terraform"
 sudo wget https://releases.hashicorp.com/terraform/1.0.4/terraform_1.0.4_linux_amd64.zip
